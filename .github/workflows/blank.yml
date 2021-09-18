@@ -35,6 +35,6 @@ jobs:
       - name: git commit
         run: git commit -m "action deploy"
       - name: push
-        run: git push -f https://letsoon:${{PUSH_KEY}}@github.com/letsoon/bing.git
+        run: git push -f https://letsoon:${{secrets.PUSH_KEY}}@github.com/letsoon/bing.git
 
 
