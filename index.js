@@ -6,7 +6,6 @@ let data = {};
 
 if(fs.existsSync(path.join(__dirname, 'data.json'))){
   data = JSON.parse(fs.readFileSync(path.join(__dirname, 'data.json'),{encoding: 'utf8'}));
-  console.log(data)
 }
 
 const domain = "https://cn.bing.com";
