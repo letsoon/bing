@@ -9,7 +9,7 @@ if(fs.existsSync(path.join(__dirname, 'data.json'))){
   console.log(data)
 }
 
-const domain = "https://bing.com";
+const domain = "https://cn.bing.com";
 
 axios.get(`${domain}/HPImageArchive.aspx?format=js&idx=-1&n=1`).then(res=>{
   const picData = res.data.images[0];
