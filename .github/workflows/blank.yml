@@ -27,7 +27,10 @@ jobs:
       # Runs a single command using the runners shell
       - name: install nodejs
         run: npm install && node index.js
-        
+      - name: git config user
+        run: git config --global user.name "letsoon"
+      - name: git config email
+        run: git config --global user.email "laishihong@live.cn"
       - name: git init
         run: git init
       - name: git add
