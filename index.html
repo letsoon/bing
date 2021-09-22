@@ -17,7 +17,7 @@
     window.onload = function() {
       fetch('data.json').then(function(res) {
         res.json().then(_data=>{
-          const data = JSON.parse(_data)
+          const data = JSON.parse(JSON.stringify(_data))
           let html = "";
           Object.keys(data).forEach((key)=>{
             html += `<img src="${data[key].url}" title="${data[key].desc}">`
