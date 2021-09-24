@@ -273,7 +273,7 @@ function getToday(idx=0){
       '3840_2160': `${domain}${urlbase}${size_4k}`,
       desc
     }
-    if(idx < 10){
+    if(idx < position.length - 1){
       getToday(idx + 1)
     }else{
       fs.writeFileSync(path.join(__dirname, 'data.json'), JSON.stringify(data));
