@@ -259,7 +259,7 @@ function getToday(idx=0){
       return;
     }
     const res = JSON.parse(std);  
-    const picData = res.data.images[0];
+    const picData = res.images[0];
     const {urlbase,copyright: desc} = picData;
     const size_1k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=1920&h=1080&rs=1&c=4`;
     const size_2k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=2560&h=1440&rs=1&c=4`;
