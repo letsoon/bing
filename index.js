@@ -258,7 +258,7 @@ function getToday(idx=0){
       console.error(`exec error: ${error}`);
       return;
     }
-    const res = JOSN.parse(std);  
+    const res = JSON.parse(std);  
     const picData = res.data.images[0];
     const {urlbase,copyright: desc} = picData;
     const size_1k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=1920&h=1080&rs=1&c=4`;
