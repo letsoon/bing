@@ -253,7 +253,7 @@ const position = [
 ]
 function getToday(idx=0){
   const {name,code} = position[idx];
-  exec(`curl '${domain}/HPImageArchive.aspx?format=js&idx=-1&n=1' -b '_EDGE_S=mkt=${code}'`,(err,std,stderr)=>{
+  exec(`curl '${domain}/HPImageArchive.aspx?format=js&idx=-1&n=1' -b '_EDGE_S=mkt=${code}'`,(error,std,stderr)=>{
     if (error) {
       console.error(`exec error: ${error}`);
       return;
