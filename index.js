@@ -273,8 +273,6 @@ function getToday(idx=0){
       '3840_2160': `${domain}${urlbase}${size_4k}`,
       desc
     }
-    console.log(res.request._header)
-    console.log(codeObj)
     if(idx < 10){
       getToday(idx + 1)
     }else{
