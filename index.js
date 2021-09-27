@@ -32,11 +32,13 @@ function uploadToBiliBili(todayPic,idx){
       console.error(`exec error: ${error}`);
       return;
     }
+    console.log(`${todayPic[idx].name}-图片保存成功`);
     exec(`curl 'http://api.vc.bilibili.com/api/v1/drawImage/upload' -F 'file_up=${idx}.jpg' -F 'category=daily' -b '${cookie}'`,(error,std,stderr)=>{
       if (error) {
         console.error(`exec error: ${error}`);
         return;
       }
+      console.log(`${todayPic[idx].name}-图片上传成功`);
       const res = JSON.parse(std);
       if(res.code !== 0){
         console.error(`exec error: ${error}`);
@@ -68,6 +70,7 @@ function getToday(idx=0){
     const url3 = `${domain}${urlbase}_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4`;
     const today = {name,code,url1,url2,url3,desc};
     todayPic.push(today);
+    console.log(`${name}-链接获取成功`);
     if(idx < position.length - 1){
       getToday(idx + 1);
     }else{
