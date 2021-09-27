@@ -34,7 +34,7 @@ function uploadToBiliBili(todayPic,idx){
       throw `exec error: ${error}`;
     }
     console.log(`${todayPic[idx].name}-图片保存成功`);
-    exec(`curl 'http://api.vc.bilibili.com/api/v1/drawImage/upload' -F 'file_up=${idx}.jpg' -F 'category=daily' -b '${cookie}'`,(error,std,stderr)=>{
+    exec(`curl 'http://api.vc.bilibili.com/api/v1/drawImage/upload' -F 'file_up=@${idx}.jpg' -F 'category=daily' -b '${cookie}'`,(error,std,stderr)=>{
       if (error) {
         throw `exec error: ${error}`;
       }
