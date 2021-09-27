@@ -1,21 +1,17 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
 const { exec } = require('child_process');
 const process = require('process');
 const { argv } = process;
 
-
 const cookie = argv[2].split('=')[1];
 
-
-
-if(fs.existsSync(path.join(__dirname, 'data.json'))){
-  const content = fs.readFileSync(path.join(__dirname, 'data.json'),{encoding: 'utf8'});
-  data = content ? JSON.parse(content) : data;
-}
+const data = {};
 
 const domain = "https://bing.com";
+
+let todayPic = [];
+
 const position = [
   { "name": "中国", "code": "zh-cn" },
   { "name": "美国", "code": "en-us" },
@@ -23,8 +19,13 @@ const position = [
   { "name": "德国", "code": "de-de" },
   { "name": "法国", "code": "fr-fr" },
   { "name": "日本", "code": "ja-jp" },
-]
-let todayPic = [];
+];
+
+if(fs.existsSync(path.join(__dirname, 'data.json'))){
+  const content = fs.readFileSync(path.join(__dirname, 'data.json'),{encoding: 'utf8'});
+  data = content ? JSON.parse(content) : data;
+}
+
 function uploadToBiliBili(todayPic,idx){
   exec(`curl '${todayPic[idx].url1}' -o '${idx}.jpg'`,(error,std,stderr)=>{
     if (error) {
