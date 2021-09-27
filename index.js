@@ -5,6 +5,7 @@ const process = require('process');
 const { argv } = process;
 
 const cookie = argv[2].split('=')[1];
+console.log(cookie);
 
 let data = {};
 
