@@ -38,12 +38,12 @@ function uploadToBiliBili(todayPic,idx){
         console.error(`exec error: ${error}`);
         return;
       }
-      console.log(`${todayPic[idx].name}-图片上传成功`);
       const res = JSON.parse(std);
       if(res.code !== 0){
-        console.error(`exec error: ${error}`);
+        console.error(`${todayPic[idx].name}-图片上传失败：${res.message}`);
         return;
       }
+      console.log(`${todayPic[idx].name}-图片上传成功`);
       todayPic[idx].bilibili = res.data;
       if(idx < todayPic.length - 1){
         uploadToBiliBili(todayPic, idx + 1);
