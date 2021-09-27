@@ -26,15 +26,15 @@ jobs:
         
       # Runs a single command using the runners shell
       - name: install nodejs
-        run: npm install && node index.js
+        run: npm install && node index.js --cookie=${{secrets.BILIBILI_COOKIE}}
       - name: git config user
         run: git config --global user.name "letsoon"
       - name: git config email
         run: git config --global user.email "laishihong@live.cn"
       - name: git init
         run: git init
-      - name: git add
-        run: git add -A
+      - name: git add data.json
+        run: git add data.json
       - name: git commit
         run: git commit -m "action deploy"
       - name: push
