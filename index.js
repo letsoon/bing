@@ -2,8 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const { exec } = require('child_process');
+const process = require('process');
+const { argv } = process;
 
-let data = {};
+
+const cookie = argv[2].split('=')[1];
+
+
 
 if(fs.existsSync(path.join(__dirname, 'data.json'))){
   const content = fs.readFileSync(path.join(__dirname, 'data.json'),{encoding: 'utf8'});
@@ -12,246 +17,40 @@ if(fs.existsSync(path.join(__dirname, 'data.json'))){
 
 const domain = "https://bing.com";
 const position = [
-  { "name": "阿尔巴尼亚", "code": "sq-al" },
-  { "name": "阿尔及利亚", "code": "ar-dz" },
-  { "name": "阿富汗", "code": "prs-af" },
-  { "name": "阿根廷", "code": "es-ar" },
-  { "name": "阿拉伯联合酋长国", "code": "ar-ae" },
-  { "name": "阿鲁巴", "code": "nl-aw" },
-  { "name": "阿曼", "code": "ar-om" },
-  { "name": "阿塞拜疆", "code": "az-latn" },
-  { "name": "埃及", "code": "ar-eg" },
-  { "name": "埃塞俄比亚", "code": "am-et" },
-  { "name": "爱尔兰", "code": "en-ie" },
-  { "name": "爱沙尼亚", "code": "et-ee" },
-  { "name": "安道尔", "code": "ca-ad" },
-  { "name": "安哥拉", "code": "pt-ao" },
-  { "name": "安圭拉", "code": "en-ai" },
-  { "name": "安提瓜和巴布达", "code": "en-ag" },
-  { "name": "奥地利", "code": "de-at" },
-  { "name": "澳大利亚", "code": "en-au" },
-  { "name": "澳门特别行政区", "code": "zh-mo" },
-  { "name": "巴巴多斯", "code": "en-bb" },
-  { "name": "巴布亚新几内亚", "code": "en-pg" },
-  { "name": "巴哈马", "code": "en-bs" },
-  { "name": "巴基斯坦", "code": "ur-pk" },
-  { "name": "巴拉圭", "code": "es-py" },
-  { "name": "巴勒斯坦权力机构", "code": "ar-ps" },
-  { "name": "巴林", "code": "ar-bh" },
-  { "name": "巴拿马", "code": "es-pa" },
-  { "name": "巴西", "code": "pt-br" },
-  { "name": "白俄罗斯", "code": "be-by" },
-  { "name": "百慕大", "code": "en-bm" },
-  { "name": "保加利亚", "code": "bg-bg" },
-  { "name": "北马里亚纳群岛", "code": "en-mp" },
-  { "name": "北马其顿", "code": "mk-mk" },
-  { "name": "贝宁", "code": "fr-bj" },
-  { "name": "比利时 - 法语", "code": "fr-be" },
-  { "name": "比利时 - 荷兰语", "code": "nl-be" },
-  { "name": "冰岛", "code": "is-is" },
-  { "name": "波多黎各", "code": "es-pr" },
-  { "name": "波兰", "code": "pl-pl" },
-  { "name": "波斯尼亚和黑塞哥维那", "code": "bs-latn" },
-  { "name": "玻利维亚", "code": "es-bo" },
-  { "name": "伯利兹", "code": "en-bz" },
-  { "name": "博茨瓦纳", "code": "en-bw" },
-  { "name": "不丹", "code": "bo-bt" },
-  { "name": "布基纳法索", "code": "fr-bf" },
-  { "name": "布隆迪", "code": "fr-bi" },
-  { "name": "赤道几内亚", "code": "es-gq" },
-  { "name": "丹麦", "code": "da-dk" },
-  { "name": "德国", "code": "de-de" },
-  { "name": "多哥", "code": "fr-tg" },
-  { "name": "多米尼加共和国", "code": "es-do" },
-  { "name": "多米尼克", "code": "en-dm" },
-  { "name": "俄罗斯", "code": "ru-ru" },
-  { "name": "厄瓜多尔", "code": "es-ec" },
-  { "name": "厄立特里亚", "code": "ti-er" },
-  { "name": "法国", "code": "fr-fr" },
-  { "name": "法罗群岛", "code": "fo-fo" },
-  { "name": "法属波利尼西亚", "code": "fr-pf" },
-  { "name": "法属圭亚那", "code": "fr-gf" },
-  { "name": "法属圣马丁", "code": "fr-mf" },
-  { "name": "梵蒂冈", "code": "it-va" },
-  { "name": "菲律宾", "code": "en-ph" },
-  { "name": "斐济", "code": "en-fj" },
-  { "name": "芬兰", "code": "fi-fi" },
-  { "name": "佛得角", "code": "pt-cv" },
-  { "name": "福克兰群岛", "code": "en-fk" },
-  { "name": "冈比亚", "code": "en-gm" },
-  { "name": "刚果（布）", "code": "fr-cg" },
-  { "name": "刚果（金）", "code": "fr-cd" },
-  { "name": "哥伦比亚", "code": "es-co" },
-  { "name": "哥斯达黎加", "code": "es-cr" },
-  { "name": "格林纳达", "code": "en-gd" },
-  { "name": "格陵兰", "code": "kl-gl" },
-  { "name": "格鲁吉亚", "code": "ka-ge" },
-  { "name": "根西岛", "code": "en-gg" },
-  { "name": "瓜德罗普", "code": "fr-gp" },
-  { "name": "关岛", "code": "en-gu" },
-  { "name": "圭亚那", "code": "en-gy" },
-  { "name": "哈萨克斯坦", "code": "kk-kz" },
-  { "name": "海地", "code": "fr-ht" },
-  { "name": "韩国", "code": "ko-kr" },
-  { "name": "荷兰", "code": "nl-nl" },
-  { "name": "荷属圣马丁", "code": "nl-sx" },
-  { "name": "黑山", "code": "sr-me" },
-  { "name": "洪都拉斯", "code": "es-hn" },
-  { "name": "基里巴斯", "code": "en-ki" },
-  { "name": "吉布提", "code": "fr-dj" },
-  { "name": "吉尔吉斯斯坦", "code": "ky-kg" },
-  { "name": "几内亚", "code": "fr-gn" },
-  { "name": "几内亚比绍", "code": "pt-gw" },
-  { "name": "加拿大 - 法语", "code": "fr-ca" },
-  { "name": "加拿大 - 英语", "code": "en-ca" },
-  { "name": "加纳", "code": "en-gh" },
-  { "name": "加蓬", "code": "fr-ga" },
-  { "name": "柬埔寨", "code": "km-kh" },
-  { "name": "捷克", "code": "cs-cz" },
-  { "name": "津巴布韦", "code": "en-zw" },
-  { "name": "喀麦隆", "code": "fr-cm" },
-  { "name": "卡塔尔", "code": "ar-qa" },
-  { "name": "开曼群岛", "code": "en-ky" },
-  { "name": "科科斯（基林）群岛", "code": "en-cc" },
-  { "name": "科摩罗", "code": "fr-km" },
-  { "name": "科特迪瓦", "code": "fr-ci" },
-  { "name": "科威特", "code": "ar-kw" },
-  { "name": "克罗地亚", "code": "hr-hr" },
-  { "name": "肯尼亚", "code": "sw-ke" },
-  { "name": "库克群岛", "code": "en-ck" },
-  { "name": "库拉索", "code": "nl-cw" },
-  { "name": "拉脱维亚", "code": "lv-lv" },
-  { "name": "莱索托", "code": "en-ls" },
-  { "name": "老挝", "code": "lo-la" },
-  { "name": "黎巴嫩", "code": "ar-lb" },
-  { "name": "立陶宛", "code": "lt-lt" },
-  { "name": "利比里亚", "code": "en-lr" },
-  { "name": "利比亚", "code": "ar-ly" },
-  { "name": "列支敦士登", "code": "de-li" },
-  { "name": "留尼汪", "code": "fr-re" },
-  { "name": "卢森堡", "code": "fr-lu" },
-  { "name": "卢旺达", "code": "rw-rw" },
-  { "name": "罗马尼亚", "code": "ro-ro" },
-  { "name": "马达加斯加", "code": "fr-mg" },
-  { "name": "马尔代夫", "code": "dv-mv" },
-  { "name": "马耳他", "code": "mt-mt" },
-  { "name": "马拉维", "code": "en-mw" },
-  { "name": "马来西亚", "code": "ms-my" },
-  { "name": "马里", "code": "fr-ml" },
-  { "name": "马绍尔群岛", "code": "en-mh" },
-  { "name": "马提尼克", "code": "fr-mq" },
-  { "name": "马约特", "code": "fr-yt" },
-  { "name": "毛里求斯", "code": "en-mu" },
-  { "name": "毛里塔尼亚", "code": "ar-mr" },
-  { "name": "美国 - 西班牙语", "code": "es-us" },
-  { "name": "美国 - 英语", "code": "en-us" },
-  { "name": "美属萨摩亚", "code": "en-as" },
-  { "name": "美属维尔京群岛", "code": "en-vi" },
-  { "name": "蒙古", "code": "mn-mn" },
-  { "name": "蒙特塞拉特", "code": "en-ms" },
-  { "name": "孟加拉国", "code": "bn-bd" },
-  { "name": "秘鲁", "code": "es-pe" },
-  { "name": "密克罗尼西亚", "code": "en-fm" },
-  { "name": "摩尔多瓦", "code": "ro-md" },
-  { "name": "摩洛哥", "code": "ar-ma" },
-  { "name": "摩纳哥", "code": "fr-mc" },
-  { "name": "莫桑比克", "code": "pt-mz" },
-  { "name": "墨西哥", "code": "es-mx" },
-  { "name": "纳米比亚", "code": "af-na" },
-  { "name": "南非", "code": "en-za" },
-  { "name": "南苏丹", "code": "en-ss" },
-  { "name": "瑙鲁", "code": "en-nr" },
-  { "name": "尼加拉瓜", "code": "es-ni" },
-  { "name": "尼泊尔", "code": "ne-np" },
-  { "name": "尼日尔", "code": "fr-ne" },
-  { "name": "尼日利亚", "code": "en-ng" },
-  { "name": "纽埃", "code": "en-nu" },
-  { "name": "挪威", "code": "nb-no" },
-  { "name": "诺福克岛", "code": "en-nf" },
-  { "name": "帕劳", "code": "en-pw" },
-  { "name": "皮特凯恩群岛", "code": "en-pn" },
-  { "name": "葡萄牙", "code": "pt-pt" },
-  { "name": "日本", "code": "ja-jp" },
-  { "name": "瑞典", "code": "sv-se" },
-  { "name": "瑞士 - 德语", "code": "de-ch" },
-  { "name": "瑞士 - 法语", "code": "fr-ch" },
-  { "name": "萨尔瓦多", "code": "es-sv" },
-  { "name": "萨摩亚", "code": "en-ws" },
-  { "name": "塞尔维亚", "code": "sr-latn" },
-  { "name": "塞拉利昂", "code": "en-sl" },
-  { "name": "塞内加尔", "code": "fr-sn" },
-  { "name": "塞浦路斯", "code": "en-cy" },
-  { "name": "塞舌尔", "code": "en-sc" },
-  { "name": "沙特阿拉伯", "code": "ar-sa" },
-  { "name": "圣巴泰勒米", "code": "fr-bl" },
-  { "name": "圣诞岛", "code": "en-cx" },
-  { "name": "圣多美和普林西比", "code": "pt-st" },
-  { "name": "圣赫勒拿、阿森松与特里斯坦达库尼亚", "code": "en-sh" },
-  { "name": "圣基茨和尼维斯", "code": "en-kn" },
-  { "name": "圣卢西亚", "code": "en-lc" },
-  { "name": "圣马力诺", "code": "it-sm" },
-  { "name": "圣皮埃尔和密克隆群岛", "code": "fr-pm" },
-  { "name": "圣文森特和格林纳丁斯", "code": "en-vc" },
-  { "name": "斯里兰卡", "code": "si-lk" },
-  { "name": "斯洛伐克", "code": "sk-sk" },
-  { "name": "斯洛文尼亚", "code": "sl-si" },
-  { "name": "斯威士兰", "code": "en-sz" },
-  { "name": "苏丹", "code": "ar-sd" },
-  { "name": "苏里南", "code": "nl-sr" },
-  { "name": "所罗门群岛", "code": "en-sb" },
-  { "name": "索马里", "code": "so-so" },
-  { "name": "塔吉克斯坦", "code": "tg-cyrl" },
-  { "name": "台湾", "code": "zh-tw" },
-  { "name": "泰国", "code": "th-th" },
-  { "name": "坦桑尼亚", "code": "en-tz" },
-  { "name": "汤加", "code": "en-to" },
-  { "name": "特克斯和凯科斯群岛", "code": "en-tc" },
-  { "name": "特立尼达和多巴哥", "code": "en-tt" },
-  { "name": "突尼斯", "code": "ar-tn" },
-  { "name": "图瓦卢", "code": "en-tv" },
-  { "name": "土耳其", "code": "tr-tr" },
-  { "name": "土库曼斯坦", "code": "tk-tm" },
-  { "name": "托克劳", "code": "en-tk" },
-  { "name": "瓦利斯和富图纳", "code": "fr-wf" },
-  { "name": "瓦努阿图", "code": "en-vu" },
-  { "name": "危地马拉", "code": "es-gt" },
-  { "name": "委内瑞拉", "code": "es-ve" },
-  { "name": "文莱", "code": "ms-bn" },
-  { "name": "乌干达", "code": "en-ug" },
-  { "name": "乌克兰", "code": "uk-ua" },
-  { "name": "乌拉圭", "code": "es-uy" },
-  { "name": "乌兹别克斯坦", "code": "uz-latn" },
-  { "name": "西班牙", "code": "es-es" },
-  { "name": "希腊", "code": "el-gr" },
-  { "name": "香港特别行政区", "code": "zh-hk" },
-  { "name": "新加坡", "code": "en-sg" },
-  { "name": "新喀里多尼亚", "code": "fr-nc" },
-  { "name": "新西兰", "code": "en-nz" },
-  { "name": "匈牙利", "code": "hu-hu" },
-  { "name": "叙利亚", "code": "ar-sy" },
-  { "name": "牙买加", "code": "en-jm" },
-  { "name": "亚美尼亚", "code": "hy-am" },
-  { "name": "也门", "code": "ar-ye" },
-  { "name": "伊拉克", "code": "ar-iq" },
-  { "name": "伊朗", "code": "fa-ir" },
-  { "name": "以色列", "code": "he-il" },
-  { "name": "意大利", "code": "it-it" },
-  { "name": "印度", "code": "en-in" },
-  { "name": "印度尼西亚", "code": "id-id" },
-  { "name": "英国", "code": "en-gb" },
-  { "name": "英属维尔京群岛", "code": "en-vg" },
-  { "name": "约旦", "code": "ar-jo" },
-  { "name": "越南", "code": "vi-vn" },
-  { "name": "赞比亚", "code": "en-zm" },
-  { "name": "泽西岛", "code": "en-je" },
-  { "name": "乍得", "code": "fr-td" },
-  { "name": "直布罗陀", "code": "en-gi" },
-  { "name": "智利", "code": "es-cl" },
-  { "name": "中非共和国", "code": "fr-cf" },
   { "name": "中国", "code": "zh-cn" },
-  { "name": "Myanmar", "code": "en-mm" }
+  { "name": "美国", "code": "en-us" },
+  { "name": "英国", "code": "en-gb" },
+  { "name": "德国", "code": "de-de" },
+  { "name": "法国", "code": "fr-fr" },
+  { "name": "日本", "code": "ja-jp" },
 ]
-let todayPic = {};
+let todayPic = [];
+function uploadToBiliBili(todayPic,idx){
+  exec(`curl '${todayPic[idx].url1}' -o '${idx}.jpg'`,(error,std,stderr)=>{
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    exec(`curl 'http://api.vc.bilibili.com/api/v1/drawImage/upload' -F 'file_up=${idx}.jpg' -F 'category=daily' -b '${cookie}'`,(error,std,stderr)=>{
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      const res = JSON.parse(std);
+      if(res.code !== 0){
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      todayPic[idx].bilibili = res.data;
+      if(idx < todayPic.length - 1){
+        uploadToBiliBili(todayPic, idx + 1);
+      }else{
+        data[picData.enddate] = todayPic;
+        fs.writeFileSync(path.join(__dirname, 'data.json'), JSON.stringify(data));
+      }
+    })
+  })
+}
 
 function getToday(idx=0){
   const {name,code} = position[idx];
@@ -263,25 +62,15 @@ function getToday(idx=0){
     const res = JSON.parse(std);  
     const picData = res.images[0];
     const {urlbase,copyright: desc} = picData;
-    const size_1k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=1920&h=1080&rs=1&c=4`;
-    const size_2k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=2560&h=1440&rs=1&c=4`;
-    const size_4k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4`;
-    const today = {
-      [code]: {
-        name,
-        code,
-        '1920_1080': `${domain}${urlbase}${size_1k}`,
-        '2160_1440': `${domain}${urlbase}${size_2k}`,
-        '3840_2160': `${domain}${urlbase}${size_4k}`,
-        desc
-      }
-    }
-    todayPic = {...todayPic, ...today}
+    const url1 = `${domain}${urlbase}_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=1920&h=1080&rs=1&c=4`;
+    const url2 = `${domain}${urlbase}_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=2560&h=1440&rs=1&c=4`;
+    const url3 = `${domain}${urlbase}_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4`;
+    const today = {name,code,url1,url2,url3,desc};
+    todayPic.push(today);
     if(idx < position.length - 1){
       getToday(idx + 1);
     }else{
-      data[picData.enddate] = {...todayPic};
-      fs.writeFileSync(path.join(__dirname, 'data.json'), JSON.stringify(data));
+      uploadToBiliBili(todayPic, 0);
     }
   })
 }
