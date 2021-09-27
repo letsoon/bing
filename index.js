@@ -14,6 +14,8 @@ const domain = "https://bing.com";
 
 let todayPic = [];
 
+let now = '';
+
 const position = [
   { "name": "中国", "code": "zh-cn" },
   { "name": "美国", "code": "en-us" },
@@ -47,7 +49,7 @@ function uploadToBiliBili(todayPic,idx){
       if(idx < todayPic.length - 1){
         uploadToBiliBili(todayPic, idx + 1);
       }else{
-        data[picData.enddate] = todayPic;
+        data[now] = todayPic;
         fs.writeFileSync(path.join(__dirname, 'data.json'), JSON.stringify(data));
       }
     })
@@ -63,6 +65,7 @@ function getToday(idx=0){
     const res = JSON.parse(std);  
     const picData = res.images[0];
     const {urlbase,copyright: desc} = picData;
+    now = picData.enddate;
     const url1 = `${domain}${urlbase}_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=1920&h=1080&rs=1&c=4`;
     const url2 = `${domain}${urlbase}_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=2560&h=1440&rs=1&c=4`;
     const url3 = `${domain}${urlbase}_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4`;
