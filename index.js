@@ -4,7 +4,8 @@ const { exec } = require('child_process');
 const process = require('process');
 const { argv } = process;
 
-const cookie = argv[2].replace('--cookie=','');
+const cookie_base64 = argv[2].replace('--cookie=','');
+const cookie = Buffer.from(cookie_base64, 'base64').toString;
 console.log(cookie);
 
 let data = {};
