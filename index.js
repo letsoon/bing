@@ -265,7 +265,7 @@ function getToday(idx=0){
     const size_2k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=2560&h=1440&rs=1&c=4`;
     const size_4k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4`;
     const codeObj = data[picData.enddate];
-    codeObj[code] = {
+    codeObj[`${code}`] = {
       name,
       code,
       '1920_1080': `${domain}${urlbase}${size_1k}`,
