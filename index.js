@@ -5,6 +5,7 @@ const process = require('process');
 const { argv } = process;
 
 const cookie = argv[2].replace('--cookie=','');
+console.log(cookie);
 
 let data = {};
 
@@ -29,19 +30,16 @@ if(fs.existsSync(path.join(__dirname, 'data.json'))){
 function uploadToBiliBili(todayPic,idx){
   exec(`curl '${todayPic[idx].url1}' -o '${idx}.jpg'`,(error,std,stderr)=>{
     if (error) {
-      console.error(`exec error: ${error}`);
-      return;
+      throw `exec error: ${error}`;
     }
     console.log(`${todayPic[idx].name}-图片保存成功`);
     exec(`curl 'http://api.vc.bilibili.com/api/v1/drawImage/upload' -F 'file_up=${idx}.jpg' -F 'category=daily' -b '${cookie}'`,(error,std,stderr)=>{
       if (error) {
-        console.error(`exec error: ${error}`);
-        return;
+        throw `exec error: ${error}`;
       }
       const res = JSON.parse(std);
       if(res.code !== 0){
-        console.error(`${todayPic[idx].name}-图片上传失败：${res.message}`);
-        return;
+        throw `${todayPic[idx].name}-图片上传失败：${res.message}`;
       }
       console.log(`${todayPic[idx].name}-图片上传成功`);
       todayPic[idx].bilibili = res.data;
@@ -59,8 +57,7 @@ function getToday(idx=0){
   const {name,code} = position[idx];
   exec(`curl '${domain}/HPImageArchive.aspx?format=js&idx=-1&n=1' -b '_EDGE_S=mkt=${code}'`,(error,std,stderr)=>{
     if (error) {
-      console.error(`exec error: ${error}`);
-      return;
+      throw `exec error: ${error}`;
     }
     const res = JSON.parse(std);  
     const picData = res.images[0];
