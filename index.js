@@ -19,6 +19,7 @@ let now = '';
 const position = [
   { "name": "中国", "code": "zh-cn" },
   { "name": "美国", "code": "en-us" },
+  { "name": "印度", "code": "en-in" },
   { "name": "英国", "code": "en-gb" },
   { "name": "德国", "code": "de-de" },
   { "name": "法国", "code": "fr-fr" },
