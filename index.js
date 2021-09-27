@@ -251,6 +251,8 @@ const position = [
   { "name": "中国", "code": "zh-cn" },
   { "name": "Myanmar", "code": "en-mm" }
 ]
+let todayPic = {};
+
 function getToday(idx=0){
   const {name,code} = position[idx];
   exec(`curl '${domain}/HPImageArchive.aspx?format=js&idx=-1&n=1' -b '_EDGE_S=mkt=${code}'`,(error,std,stderr)=>{
@@ -264,18 +266,21 @@ function getToday(idx=0){
     const size_1k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=1920&h=1080&rs=1&c=4`;
     const size_2k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=2560&h=1440&rs=1&c=4`;
     const size_4k = `_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4`;
-    const codeObj = data[picData.enddate];
-    codeObj[`${code}`] = {
-      name,
-      code,
-      '1920_1080': `${domain}${urlbase}${size_1k}`,
-      '2160_1440': `${domain}${urlbase}${size_2k}`,
-      '3840_2160': `${domain}${urlbase}${size_4k}`,
-      desc
+    const today = {
+      [code]: {
+        name,
+        code,
+        '1920_1080': `${domain}${urlbase}${size_1k}`,
+        '2160_1440': `${domain}${urlbase}${size_2k}`,
+        '3840_2160': `${domain}${urlbase}${size_4k}`,
+        desc
+      }
     }
+    todayPic = {...todayPic, ...today}
     if(idx < position.length - 1){
-      getToday(idx + 1)
+      getToday(idx + 1);
     }else{
+      data[picData.enddate] = {...todayPic};
       fs.writeFileSync(path.join(__dirname, 'data.json'), JSON.stringify(data));
     }
   })
