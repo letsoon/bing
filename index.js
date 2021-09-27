@@ -6,7 +6,7 @@ const { argv } = process;
 
 const cookie = argv[2].split('=')[1];
 
-const data = {};
+let data = {};
 
 const domain = "https://bing.com";
 
